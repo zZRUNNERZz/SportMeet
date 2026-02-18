@@ -355,19 +355,28 @@
 
     document.getElementById('dataGlobale').valueAsDate = new Date();
     checkAuth();
-  </script>
-  <script>
-  // Gestione automatica del Widget Netlify
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on("init", user => {
-      if (user) {
-        // Controllo se l'utente è un MODERATORE
-        const roles = user.app_metadata ? user.app_metadata.roles : [];
-        if (roles.includes("moderator")) {
-          console.log("Ruolo moderatore confermato");
-          if(typeof showToast === "function") showToast("Modalità Moderatore Attiva");
-        }
-      }
+   // GESTIONE UNIFICATA RUOLI (ADMIN E MODERATOR)
+if (window.netlifyIdentity) {
+  window.netlifyIdentity.on("init", user => {
+    if (user) handleUserRoles(user);
+  });
+  window.netlifyIdentity.on("login", user => {
+    handleUserRoles(user);
+  });
+}
+
+function handleUserRoles(user) {
+  const roles = user.app_metadata?.roles || [];
+  
+  if (roles.includes('admin')) {
+    showToast("Accesso ADMIN sbloccato! 👑", "🛡️");
+    // Mostra elementi speciali per admin
+    document.querySelectorAll('.btn-admin-only').forEach(el => el.classList.remove('hidden-view'));
+    console.log("Modalità Amministratore Attiva");
+  } else if (roles.includes('moderator')) {
+    showToast("Modalità Moderatore Attiva", "🛡️");
+  }
+}
     });
   }
 
@@ -394,5 +403,6 @@
 </body>
 
 </html>
+
 
 
