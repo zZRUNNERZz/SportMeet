@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>SportMeet - Pro Edition</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
     body { font-family: 'Poppins', sans-serif; background: #f0f2f5; overflow-x: hidden; }
@@ -337,6 +338,42 @@
     document.getElementById('dataGlobale').valueAsDate = new Date();
     checkAuth();
   </script>
+  <script>
+  // Gestione automatica del Widget Netlify
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+      if (user) {
+        // Controllo se l'utente è un MODERATORE
+        const roles = user.app_metadata ? user.app_metadata.roles : [];
+        if (roles.includes("moderator")) {
+          console.log("Ruolo moderatore confermato");
+          if(typeof showToast === "function") showToast("Modalità Moderatore Attiva");
+        }
+      }
+    });
+  }
+
+  // Collega la TUA grafica al database
+  const btnLogin = document.getElementById('btnLogin');
+  if (btnLogin) {
+    btnLogin.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('loginEmail').value;
+      const pass = document.getElementById('loginPass').value;
+
+      // Invia i dati a Netlify senza cambiare la tua grafica
+      netlifyIdentity.gotrue.login(email, pass)
+        .then((user) => {
+          showToast("Accesso eseguito!");
+          // Dopo il login, mostriamo la vista profilo usando la tua funzione
+          if(typeof cambiaVista === "function") cambiaVista('profilo');
+        })
+        .catch(err => showToast("Errore: " + err.message));
+    });
+  }
+</script>
 </body>
 
 </html>
+
