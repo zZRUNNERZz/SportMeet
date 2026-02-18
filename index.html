@@ -195,21 +195,39 @@
     };
 
     window.gestisciAuth = () => {
-      const e = document.getElementById('loginEmail').value.trim().toLowerCase(), p = document.getElementById('loginPass').value.trim();
-      if(!e || !p) return alert("Campi obbligatori!");
-      if(isRegisterMode) {
-          const n = document.getElementById('loginNome').value.trim();
-          if(!n) return alert("Nome obbligatorio!");
-          if(utentiRegistrati.find(u => u.email === e)) return alert("Già registrato!");
+  const e = document.getElementById('loginEmail').value.trim().toLowerCase(), 
+        p = document.getElementById('loginPass').value.trim();
+  
+  if(!e || !p) return alert("Campi obbligatori!");
+
+  if(isRegisterMode) {
+      const n = document.getElementById('loginNome').value.trim();
+      if(!n) return alert("Nome obbligatorio!");
+      
+      // 1. REGISTRAZIONE SU NETLIFY
+      netlifyIdentity.gotrue.signup(e, p, { full_name: n })
+        .then(() => {
+          showToast("Controlla l'email per confermare!", "📧");
+          // 2. SALVATAGGIO SU FIREBASE (per i dati sportivi)
           const nu = { nome: n, email: e, pass: p, dataIscrizione: new Date().toISOString() };
           utentiRegistrati.push(nu);
-          set(ref(db, 'users'), utentiRegistrati).then(() => { currentUser = nu; localStorage.setItem('sm_v4_auth', JSON.stringify(nu)); checkAuth(); });
-      } else {
+          set(ref(db, 'users'), utentiRegistrati);
+        })
+        .catch(err => alert("Errore Netlify: " + err.message));
+  } else {
+      // LOGIN SU NETLIFY
+      netlifyIdentity.gotrue.login(e, p)
+        .then((user) => {
           const u = utentiRegistrati.find(u => u.email === e);
-          if(!u || u.pass !== p) return alert("Credenziali errate!");
-          currentUser = u; localStorage.setItem('sm_v4_auth', JSON.stringify(u)); checkAuth();
-      }
-    };
+          if(u) {
+            currentUser = u; 
+            localStorage.setItem('sm_v4_auth', JSON.stringify(u)); 
+            checkAuth();
+          }
+        })
+        .catch(err => alert("Credenziali errate su Netlify!"));
+  }
+};
 
     window.logout = () => { localStorage.removeItem('sm_v4_auth'); location.reload(); };
     window.passwordDimenticata = () => { window.location.href = `mailto:donnini.giorgio.job@gmail.com?subject=Recupero Password&body=Email: ${document.getElementById('loginEmail').value}`; };
@@ -376,4 +394,5 @@
 </body>
 
 </html>
+
 
