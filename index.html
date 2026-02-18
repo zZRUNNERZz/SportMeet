@@ -40,7 +40,9 @@
         </div>
         <input id="loginEmail" type="email" class="w-full p-4 bg-white border border-slate-200 rounded-2xl outline-none font-medium focus:border-purple-500 transition-colors" placeholder="Email">
         <input id="loginPass" type="password" class="w-full p-4 bg-white border border-slate-200 rounded-2xl outline-none font-medium focus:border-purple-500 transition-colors" placeholder="Password">
-        <button onclick="gestisciAuth()" id="btnAuth" class="w-full bg-main-gradient text-white font-bold py-4 rounded-2xl shadow-lg hover:scale-[1.02] active:scale-95 transition-all">Accedi 🚀</button>
+        <button id="btnLogin" class="w-full bg-main-gradient text-white font-bold py-4 rounded-2xl shadow-lg hover:scale-[1.02] active:scale-95 transition-all">
+    Accedi 🚀
+</button>
         <div class="text-center mt-4"><p class="text-xs text-slate-400 font-medium cursor-pointer hover:text-purple-600 underline" onclick="toggleAuthMode()"><span id="toggleText">Non hai un account? Registrati</span></p></div>
         <div class="text-center mt-2 pt-2 border-t border-slate-200"><button onclick="passwordDimenticata()" class="text-[10px] uppercase font-bold text-slate-400 hover:text-red-400 transition-colors tracking-widest">Password Dimenticata?</button></div>
       </div>
@@ -403,6 +405,7 @@ function handleUserRoles(user) {
 </body>
 
 </html>
+
 
 
 
