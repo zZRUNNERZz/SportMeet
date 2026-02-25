@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -85,7 +84,19 @@
           <input id="search" oninput="renderPubblici()" class="md:col-span-2 p-5 rounded-[1.5rem] bg-white shadow-xl outline-none" placeholder="Cerca sport o centro...">
           <input type="date" id="dataGlobale" onchange="renderPubblici()" class="bg-white p-4 rounded-[1.5rem] shadow-xl font-bold text-indigo-600 outline-none">
         </div>
-        <div class="flex gap-3 overflow-x-auto pb-4 mb-8 no-scrollbar" style="scrollbar-width: none; -ms-overflow-style: none; -webkit-overflow-scrolling: touch;">
+       .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { 
+      -ms-overflow-style: none; 
+      scrollbar-width: none; 
+      display: flex; 
+      overflow-x: auto; 
+      gap: 12px;
+      cursor: grab; /* Indica che è trascinabile */
+      user-select: none; /* Impedisce di evidenziare il testo mentre trascini */
+      -webkit-overflow-scrolling: touch;
+    }
+    .no-scrollbar:active { cursor: grabbing; } /* Quando clicchi la mano "afferra" */
+    .no-scrollbar button { flex-shrink: 0; }
           <button onclick="filtraPerSport('')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">Tutti</button>
           <button onclick="filtraPerSport('⚽ Calcio')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">⚽ Calcio</button>
           <button onclick="filtraPerSport('🏀 Basket')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">🏀 Basket</button>
@@ -454,6 +465,7 @@ function handleUserRoles(user) {
 </body>
 
 </html>
+
 
 
 
