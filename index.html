@@ -310,56 +310,23 @@ window.renderPubblici = () => {
   container.innerHTML = '';
 
   luoghi.forEach((l, i) => {
-    // CORREZIONE: Controlliamo nome, indirizzo (mappa) e sport
-    const matchNome = l.nome && l.nome.toLowerCase().includes(filtro);
-    const matchIndirizzo = l.mappa && l.mappa.toLowerCase().includes(filtro);
-    const matchSport = l.sport && l.sport.toLowerCase().includes(filtro);
+    // RICERCA RIPARATA: Controlla Nome, Indirizzo (mappa) e Sport
+    const matchNome = (l.nome || "").toLowerCase().includes(filtro);
+    const matchIndirizzo = (l.mappa || "").toLowerCase().includes(filtro);
+    const matchSport = (l.sport || "").toLowerCase().includes(filtro);
 
-    // Se il filtro non è vuoto e non trova nulla in questi 3 campi, salta la card
     if (filtro && !matchNome && !matchIndirizzo && !matchSport) return;
 
     const f_list = (l.fasce || []).map((f, idx) => ({...f, originalIdx: idx})).filter(f => f.data === dataSel);
-    
     const card = document.createElement('div');
     card.className = "bg-white rounded-[2.5rem] shadow-xl overflow-hidden animate-card mb-10";
-    card.innerHTML = `
-      <div class="relative h-48">
-        <img src="${l.foto}" class="w-full h-full object-cover">
-        <div class="absolute inset-0 bg-black/50 p-6 flex flex-col justify-end">
-          <div class="flex justify-between items-end">
-            <div>
-              <span class="bg-white/20 backdrop-blur-md text-white text-[9px] font-bold px-3 py-1 rounded-full uppercase mb-2 inline-block border border-white/30">${l.sport}</span>
-              <h2 class="text-2xl font-black text-white uppercase">${l.nome}</h2>
-              <p class="text-white/70 text-sm">📍 ${l.mappa}</p>
-            </div>
-            ${l.creatoreEmail === currentUser.email ? `<button onclick="eliminaLuogo(${i})" class="bg-red-500 text-white p-2 rounded-lg text-[10px] font-bold">ELIMINA</button>` : ''}
-          </div>
-        </div>
-      </div>
-      <div class="p-6">
-        <div class="flex gap-3 mb-8 bg-slate-50 p-3 rounded-2xl border">
-          <input id="ora-${i}" type="time" class="flex-1 p-3 rounded-xl border-none">
-          <input id="max-${i}" type="number" placeholder="Posti" class="w-20 p-3 rounded-xl border-none">
-          <button onclick="aggiungiFascia(${i})" class="bg-indigo-600 text-white font-bold px-6 rounded-xl text-xs">+ Crea</button>
-        </div>
-        <div class="space-y-4">
-          ${f_list.map(f => { 
-            const isI = f.iscritti?.some(u => u.email.toLowerCase() === currentUser.email.toLowerCase()); 
-            return \`
-              <div class="p-4 rounded-2xl bg-slate-50 border-2 \${isI ? 'border-indigo-500 bg-indigo-50' : ''}">
-                <div class="flex justify-between items-center mb-3">
-                  <span class="text-xl font-black text-indigo-600">\${f.ora}</span>
-                  <button onclick="partecipa(\${i}, \${f.originalIdx})" class="px-6 py-2 rounded-xl font-bold text-xs \${isI ? 'bg-red-500 text-white' : 'bg-main-gradient text-white'}">
-                    \${isI ? 'Esci' : 'Partecipa'}
-                  </button>
-                </div>
-                <div class="flex flex-wrap gap-2">
-                  \${(f.iscritti || []).map(u => \`<span class="bg-white px-3 py-1 rounded-lg text-indigo-600 text-xs font-bold">\${u.nome}</span>\`).join('')}
-                </div>
-              </div>\`; 
-          }).join('')}
-        </div>
-      </div>`;
+    card.innerHTML = `<div class="relative h-48"><img src="${l.foto}" class="w-full h-full object-cover"><div class="absolute inset-0 bg-black/50 p-6 flex flex-col justify-end">
+    <div class="flex justify-between items-end"><div>
+    <span class="bg-white/20 backdrop-blur-md text-white text-[9px] font-bold px-3 py-1 rounded-full uppercase mb-2 inline-block border border-white/30">${l.sport}</span>
+    <h2 class="text-2xl font-black text-white uppercase">${l.nome}</h2><p class="text-white/70 text-sm">📍 ${l.mappa}</p></div>
+    ${l.creatoreEmail === currentUser.email ? `<button onclick="eliminaLuogo(${i})" class="bg-red-500 text-white p-2 rounded-lg text-[10px] font-bold">ELIMINA</button>` : ''}</div></div></div>
+    <div class="p-6"><div class="flex gap-3 mb-8 bg-slate-50 p-3 rounded-2xl border"><input id="ora-${i}" type="time" class="flex-1 p-3 rounded-xl border-none"><input id="max-${i}" type="number" placeholder="Posti" class="w-20 p-3 rounded-xl border-none"><button onclick="aggiungiFascia(${i})" class="bg-indigo-600 text-white font-bold px-6 rounded-xl text-xs">+ Crea</button></div>
+    <div class="space-y-4">${f_list.map(f => { const isI = f.iscritti?.some(u => u.email.toLowerCase() === currentUser.email.toLowerCase()); return `<div class="p-4 rounded-2xl bg-slate-50 border-2 ${isI ? 'border-indigo-500 bg-indigo-50' : ''}"><div class="flex justify-between items-center mb-3"><span class="text-xl font-black text-indigo-600">${f.ora}</span><button onclick="partecipa(${i}, ${f.originalIdx})" class="px-6 py-2 rounded-xl font-bold text-xs ${isI ? 'bg-red-500 text-white' : 'bg-main-gradient text-white'}">${isI ? 'Esci' : 'Partecipa'}</button></div><div class="flex flex-wrap gap-2">${(f.iscritti || []).map(u => `<span class="bg-white px-3 py-1 rounded-lg text-indigo-600 text-xs font-bold">${u.nome}</span>`).join('')}</div></div>`; }).join('')}</div></div>`;
     container.appendChild(card);
   });
 };
@@ -474,6 +441,7 @@ function handleUserRoles(user) {
 </body>
 
 </html>
+
 
 
 
