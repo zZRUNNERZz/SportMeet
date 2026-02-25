@@ -66,25 +66,7 @@
         <button onclick="cambiaVista('privata')" class="w-full flex items-center gap-4 px-5 py-4 rounded-2xl text-slate-400 font-bold hover:bg-white/5 transition-all">🔐 Privati</button>
       </nav>
       <div class="p-6"><button onclick="logout()" class="w-full p-4 text-red-400 bg-red-500/10 rounded-2xl font-bold text-sm uppercase">Logout</button></div>
-      <div class="flex gap-3 overflow-x-auto pb-4 mb-4 no-scrollbar" style="scrollbar-width: none; -ms-overflow-style: none;">
-  <button onclick="filtraPerSport('')" class="flex-none px-5 py-2.5 bg-white rounded-2xl shadow-sm font-bold text-[10px] uppercase border border-slate-100 hover:bg-indigo-500 hover:text-white transition-all">Tutti</button>
-  <button onclick="filtraPerSport('⚽ Calcio')" class="flex-none px-5 py-2.5 bg-white rounded-2xl shadow-sm font-bold text-[10px] uppercase border border-slate-100 hover:bg-indigo-500 hover:text-white transition-all">⚽ Calcio</button>
-  <button onclick="filtraPerSport('🏀 Basket')" class="flex-none px-5 py-2.5 bg-white rounded-2xl shadow-sm font-bold text-[10px] uppercase border border-slate-100 hover:bg-indigo-500 hover:text-white transition-all">🏀 Basket</button>
-  <button onclick="filtraPerSport('🎾 Tennis')" class="flex-none px-5 py-2.5 bg-white rounded-2xl shadow-sm font-bold text-[10px] uppercase border border-slate-100 hover:bg-indigo-500 hover:text-white transition-all">🎾 Tennis</button>
-  <button onclick="filtraPerSport('🎾 Padel')" class="flex-none px-5 py-2.5 bg-white rounded-2xl shadow-sm font-bold text-[10px] uppercase border border-slate-100 hover:bg-indigo-500 hover:text-white transition-all">🎾 Padel</button>
-  <button onclick="filtraPerSport('🏐 Volley')" class="flex-none px-5 py-2.5 bg-white rounded-2xl shadow-sm font-bold text-[10px] uppercase border border-slate-100 hover:bg-indigo-500 hover:text-white transition-all">🏐 Volley</button>
-  <button onclick="filtraPerSport('🎳 Bowling')" class="flex-none px-5 py-2.5 bg-white rounded-2xl shadow-sm font-bold text-[10px] uppercase border border-slate-100 hover:bg-indigo-500 hover:text-white transition-all">🎳 Bowling</button>
-  <button onclick="filtraPerSport('🏓 Ping Pong')" class="flex-none px-5 py-2.5 bg-white rounded-2xl shadow-sm font-bold text-[10px] uppercase border border-slate-100 hover:bg-indigo-500 hover:text-white transition-all">🏓 Ping Pong</button>
-  <button onclick="filtraPerSport('🏊 Nuoto')" class="flex-none px-5 py-2.5 bg-white rounded-2xl shadow-sm font-bold text-[10px] uppercase border border-slate-100 hover:bg-indigo-500 hover:text-white transition-all">🏊 Nuoto</button>
-  <button onclick="filtraPerSport('🏋️ Palestra')" class="flex-none px-5 py-2.5 bg-white rounded-2xl shadow-sm font-bold text-[10px] uppercase border border-slate-100 hover:bg-indigo-500 hover:text-white transition-all">🏋️ Palestra</button>
-  <button onclick="filtraPerSport('🧗 Arrampicata')" class="flex-none px-5 py-2.5 bg-white rounded-2xl shadow-sm font-bold text-[10px] uppercase border border-slate-100 hover:bg-indigo-500 hover:text-white transition-all">🧗 Arrampicata</button>
-  <button onclick="filtraPerSport('🏌️ Golf')" class="flex-none px-5 py-2.5 bg-white rounded-2xl shadow-sm font-bold text-[10px] uppercase border border-slate-100 hover:bg-indigo-500 hover:text-white transition-all">🏌️ Golf</button>
-  <button onclick="filtraPerSport('🏇 Equitazione')" class="flex-none px-5 py-2.5 bg-white rounded-2xl shadow-sm font-bold text-[10px] uppercase border border-slate-100 hover:bg-indigo-500 hover:text-white transition-all">🏇 Equitazione</button>
-  <button onclick="filtraPerSport('🛹 Skateboard')" class="flex-none px-5 py-2.5 bg-white rounded-2xl shadow-sm font-bold text-[10px] uppercase border border-slate-100 hover:bg-indigo-500 hover:text-white transition-all">🛹 Skateboard</button>
-  <button onclick="filtraPerSport('⛷️ Sci')" class="flex-none px-5 py-2.5 bg-white rounded-2xl shadow-sm font-bold text-[10px] uppercase border border-slate-100 hover:bg-indigo-500 hover:text-white transition-all">⛷️ Sci</button>
-  <button onclick="filtraPerSport('🥊 Boxe')" class="flex-none px-5 py-2.5 bg-white rounded-2xl shadow-sm font-bold text-[10px] uppercase border border-slate-100 hover:bg-indigo-500 hover:text-white transition-all">🥊 Boxe</button>
-  <button onclick="filtraPerSport('🧘 Yoga')" class="flex-none px-5 py-2.5 bg-white rounded-2xl shadow-sm font-bold text-[10px] uppercase border border-slate-100 hover:bg-indigo-500 hover:text-white transition-all">🧘 Yoga</button>
-</div>
+     
     </aside>
 
     <header class="glass sticky top-4 mx-4 z-30 rounded-2xl shadow-lg mb-6">
@@ -117,6 +99,45 @@
           </div>
         </div>
         <div id="luoghiPubblici" class="grid grid-cols-1 gap-10"></div>
+        <div id="vistaPubblica">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <input id="search" oninput="renderPubblici()" class="md:col-span-2 p-5 rounded-[1.5rem] bg-white shadow-xl outline-none" placeholder="Cerca sport o centro...">
+          <input type="date" id="dataGlobale" onchange="renderPubblici()" class="bg-white p-4 rounded-[1.5rem] shadow-xl font-bold text-indigo-600 outline-none">
+        </div>
+
+        <div class="flex gap-3 overflow-x-auto pb-4 mb-8 no-scrollbar" style="scrollbar-width: none; -ms-overflow-style: none; -webkit-overflow-scrolling: touch;">
+          <button onclick="filtraPerSport('')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">Tutti</button>
+          <button onclick="filtraPerSport('⚽ Calcio')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">⚽ Calcio</button>
+          <button onclick="filtraPerSport('🏀 Basket')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">🏀 Basket</button>
+          <button onclick="filtraPerSport('🎾 Tennis')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">🎾 Tennis</button>
+          <button onclick="filtraPerSport('🎾 Padel')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">🎾 Padel</button>
+          <button onclick="filtraPerSport('🏐 Volley')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">🏐 Volley</button>
+          <button onclick="filtraPerSport('🎳 Bowling')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">🎳 Bowling</button>
+          <button onclick="filtraPerSport('🏓 Ping Pong')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">🏓 Ping Pong</button>
+          <button onclick="filtraPerSport('🏊 Nuoto')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">🏊 Nuoto</button>
+          <button onclick="filtraPerSport('🏋️ Palestra')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">🏋️ Palestra</button>
+          <button onclick="filtraPerSport('🧗 Arrampicata')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">🧗 Arrampicata</button>
+          <button onclick="filtraPerSport('🏌️ Golf')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">🏌️ Golf</button>
+          <button onclick="filtraPerSport('🏇 Equitazione')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">🏇 Equitazione</button>
+          <button onclick="filtraPerSport('🛹 Skateboard')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">🛹 Skateboard</button>
+          <button onclick="filtraPerSport('⛷️ Sci')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">⛷️ Sci</button>
+          <button onclick="filtraPerSport('🥊 Boxe')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">🥊 Boxe</button>
+          <button onclick="filtraPerSport('🧘 Yoga')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">🧘 Yoga</button>
+        </div>
+        ```
+*(Nota: ho anche cambiato `mb-10` in `mb-6` nella riga della ricerca per far stare i tasti più vicini e visivamente più belli).*
+
+### Passo 3: Pulisci il doppione nel JavaScript
+Scorri verso il fondo del file fino alle righe **286-292** circa. Noterai che c'è scritto:
+```javascript
+window.filtraPerSport = (sport) => {
+  document.getElementById('search').value = sport;
+  window.renderPubblici();
+};
+window.filtraPerSport = (sport) => {
+  document.getElementById('search').value = sport;
+  window.renderPubblici();
+};
       </div>
 
       <div id="vistaPrivata" class="hidden-view">
@@ -441,6 +462,7 @@ function handleUserRoles(user) {
 </body>
 
 </html>
+
 
 
 
