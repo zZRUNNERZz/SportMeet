@@ -203,6 +203,7 @@ window.filtraPerSport = (sport) => {
     let luoghi = [], eventiPrivati = [], utentiRegistrati = [];
     let currentUser = JSON.parse(localStorage.getItem('sm_v4_auth')) || null;
     let isRegisterMode = false;
+    let sportSelezionato = '';
 
     onValue(ref(db, 'luoghi'), (s) => { luoghi = s.val() || []; if(currentUser) { renderPubblici(); updateStats(); } });
     onValue(ref(db, 'privati'), (s) => { eventiPrivati = s.val() || []; if(currentUser) { gestisciInvitoURL(); renderPrivati(); updateStats(); } });
@@ -304,31 +305,32 @@ window.filtraPerSport = (sport) => {
       set(ref(db, isPrivato ? 'privati' : 'luoghi'), isPrivato ? eventiPrivati : luoghi);
     };
 
-    // NUOVO BLOCCO DA INCOLLARE AL POSTO DELLA VECCHIA FUNZIONE
+    // NUOVO BLOCCO: Salviamo lo sport selezionato senza toccare la barra di ricerca
 window.filtraPerSport = (sport) => {
-  document.getElementById('search').value = sport;
-  window.renderPubblici();
-};
-window.filtraPerSport = (sport) => {
-  document.getElementById('search').value = sport;
+  sportSelezionato = sport;
   window.renderPubblici();
 };
 
 window.renderPubblici = () => {
-  const container = document.getElementById('luoghiPubblici'), 
-        dataSel = document.getElementById('dataGlobale').value, 
-        filtro = document.getElementById('search').value.toLowerCase();
+  const container = document.getElementById('luoghiPubblici');
+  const dataSel = document.getElementById('dataGlobale').value;
+  const filtroTesto = document.getElementById('search').value.toLowerCase(); 
   
   container.innerHTML = '';
 
   luoghi.forEach((l, i) => {
-    // RICERCA RIPARATA: Controlla Nome, Indirizzo (mappa) e Sport
-    const matchNome = (l.nome || "").toLowerCase().includes(filtro);
-    const matchIndirizzo = (l.mappa || "").toLowerCase().includes(filtro);
-    const matchSport = (l.sport || "").toLowerCase().includes(filtro);
+    // 1. Controllo dello Sport (tramite i bottoni)
+    const matchSport = sportSelezionato === '' || l.sport === sportSelezionato;
 
-    if (filtro && !matchNome && !matchIndirizzo && !matchSport) return;
+    // 2. Controllo del Testo (tramite la barra di ricerca)
+    const matchNome = (l.nome || "").toLowerCase().includes(filtroTesto);
+    const matchIndirizzo = (l.mappa || "").toLowerCase().includes(filtroTesto);
+    const matchTesto = filtroTesto === '' || matchNome || matchIndirizzo;
 
+    // INCROCIO: Se non corrisponde allo sport scelto OPPURE non corrisponde al testo cercato, salta
+    if (!matchSport || !matchTesto) return;
+
+    // Rendering della card se passa i filtri
     const f_list = (l.fasce || []).map((f, idx) => ({...f, originalIdx: idx})).filter(f => f.data === dataSel);
     const card = document.createElement('div');
     card.className = "bg-white rounded-[2.5rem] shadow-xl overflow-hidden animate-card mb-10";
@@ -453,6 +455,7 @@ function handleUserRoles(user) {
 </body>
 
 </html>
+
 
 
 
