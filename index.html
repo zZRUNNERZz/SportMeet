@@ -305,12 +305,6 @@ window.filtraPerSport = (sport) => {
       set(ref(db, isPrivato ? 'privati' : 'luoghi'), isPrivato ? eventiPrivati : luoghi);
     };
 
-    // NUOVO BLOCCO: Salviamo lo sport selezionato senza toccare la barra di ricerca
-window.filtraPerSport = (sport) => {
-  sportSelezionato = sport;
-  window.renderPubblici();
-};
-
 window.renderPubblici = () => {
   const container = document.getElementById('luoghiPubblici');
   const dataSel = document.getElementById('dataGlobale').value;
@@ -455,6 +449,7 @@ function handleUserRoles(user) {
 </body>
 
 </html>
+
 
 
 
