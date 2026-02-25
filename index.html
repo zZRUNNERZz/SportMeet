@@ -84,19 +84,27 @@
           <input id="search" oninput="renderPubblici()" class="md:col-span-2 p-5 rounded-[1.5rem] bg-white shadow-xl outline-none" placeholder="Cerca sport o centro...">
           <input type="date" id="dataGlobale" onchange="renderPubblici()" class="bg-white p-4 rounded-[1.5rem] shadow-xl font-bold text-indigo-600 outline-none">
         </div>
-       .no-scrollbar::-webkit-scrollbar { display: none; }
+       /* Design del carosello */
     .no-scrollbar { 
-      -ms-overflow-style: none; 
-      scrollbar-width: none; 
       display: flex; 
+      flex-wrap: nowrap; 
       overflow-x: auto; 
       gap: 12px;
-      cursor: grab; /* Indica che è trascinabile */
-      user-select: none; /* Impedisce di evidenziare il testo mentre trascini */
+      padding-bottom: 10px;
       -webkit-overflow-scrolling: touch;
     }
-    .no-scrollbar:active { cursor: grabbing; } /* Quando clicchi la mano "afferra" */
-    .no-scrollbar button { flex-shrink: 0; }
+
+    /* Barra di scorrimento visibile solo su PC (sottile ed elegante) */
+    @media (min-width: 768px) {
+      .no-scrollbar::-webkit-scrollbar { height: 6px; }
+      .no-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+      .no-scrollbar::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 10px; }
+    }
+
+    /* Nasconde la barra su Mobile per estetica */
+    @media (max-width: 767px) {
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+    }
           <button onclick="filtraPerSport('')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">Tutti</button>
           <button onclick="filtraPerSport('⚽ Calcio')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">⚽ Calcio</button>
           <button onclick="filtraPerSport('🏀 Basket')" class="flex-none px-6 py-3 bg-white rounded-2xl shadow-md font-bold text-[11px] uppercase border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">🏀 Basket</button>
@@ -465,6 +473,7 @@ function handleUserRoles(user) {
 </body>
 
 </html>
+
 
 
 
